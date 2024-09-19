@@ -1,0 +1,26 @@
+Diferenças principais das duas abordagens
+
+Modelo de Comunicação:
+
+- Filas de Mensagens: Comunicação ponto a ponto. Mensagens são enviadas para uma fila e processadas em ordem de chegada por um consumidor.
+- Pub/Sub: Comunicação de muitos para muitos. Mensagens são enviadas para um canal e distribuídas para todos os inscritos.
+
+Ordem de Mensagens:
+
+- Filas de Mensagens: Mensagens são processadas na ordem em que chegaram à fila.
+- Pub/Sub: Não garante a ordem em que as mensagens são recebidas pelos inscritos.
+
+Desacoplamento:
+
+- Filas de Mensagens: O desacoplamento é feito entre produtores e consumidores. O produtor envia uma mensagem para uma fila, sem saber qual consumidor a processará. O consumidor retira mensagens da fila e as processa. No entanto, o processamento das mensagens ainda ocorre de forma sequencial (uma por uma) e em ordem, garantindo que cada mensagem seja processada na ordem em que chegou à fila.
+- Pub/Sub: O desacoplamento é entre publicadores e inscritos. O publicador envia uma mensagem para um canal ou tópico e não precisa saber quem está inscrito. Todos os inscritos recebem a mensagem de forma independente. Isso proporciona um maior nível de desacoplamento, pois os publicadores e inscritos não têm conhecimento sobre uns aos outros.
+
+Sincronismo e Mensagens:
+
+- Filas de Mensagens: O modelo de filas de mensagens é assíncrono no sentido de que o produtor não precisa esperar pela confirmação de processamento. O consumidor, por outro lado, processa as mensagens uma por uma em ordem FIFO quando estiver pronto, independentemente de quando a mensagem foi produzida. Assim, o produtor pode enviar mensagens para a fila sem que o consumidor esteja imediatamente disponível.
+- Pub/Sub: O modelo pub/sub é assíncrono, mas tem uma característica importante de sincronismo em relação à disponibilidade dos inscritos. Se um publicador envia uma mensagem e não há inscritos no momento da publicação, a mensagem não será recebida por ninguém. Mesmo que um inscrito se junte mais tarde, ele não receberá as mensagens que foram publicadas antes de sua inscrição. Portanto, para garantir que as mensagens sejam recebidas, deve haver pelo menos um inscrito ativo quando a mensagem é publicada.
+
+Uso Comum:
+
+Filas de Mensagens: Útil para processamento de tarefas, onde a ordem e o controle sobre o processamento das mensagens são importantes.
+Pub/Sub: Ideal para sistemas onde a disseminação de informações para múltiplos consumidores é necessária.
